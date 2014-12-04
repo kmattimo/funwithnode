@@ -1,0 +1,1 @@
+nodemon -g -e js,styl,jade app.js

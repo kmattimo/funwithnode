@@ -1,0 +1,68 @@
+!!!5
+html
+  head
+    title #{title}
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+    if(title == "Contact")
+      script(src="/socket.io/socket.io.js")
+      script(type='text/javascript')
+        var isHuman = 0;
+        //alert(String(document.URL).split('/'));
+        //curHost = window.location.protocol+"//"+window.location.host;
+        //curHost = 'http://localhost/'
+        //curHost = 'http://www.kylemattimore.com/'
+        var socket = io.connect();
+        
+        setInterval(watchForHuman, 60);
+
+        function watchForHuman() {
+          if(isHuman == 0)
+            if(document.getElementById('humanity').value == "I am")
+              {
+              isHuman =1;
+              //alert('HUMAN');
+             //socket moved
+              socket.emit('ishuman');
+              socket.on('message', function (data) { document.getElementById("contactinfo").innerHTML = data; });
+              
+
+              //alert('done');
+              }
+            else
+              {
+              }
+        }
+  body
+    header
+      h1 Kyle Mattimore
+    nav
+      p
+        ul
+          li
+            if(locals.currentURL == '/' )
+              a(href='/').current Home
+            else
+               a(href='/') Home
+          li 
+            if(locals.currentURL == '/about/' )
+              a(href='/about/').current About
+            else
+              a(href='/about/') About
+          li 
+            if(locals.currentURL == '/contact/' )
+              a(href='/contact/').current Contact
+            else
+              a(href='/contact/') Contact
+    .container
+      .main-content
+        block content
+      .sidebar
+        block sidebar
+          .widget
+            h1 Projects
+              p
+                | Site is under construction!s
+                | 
+    footer
+      p Running on node with Express, Jade and Stylus
